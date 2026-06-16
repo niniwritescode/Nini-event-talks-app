@@ -1,0 +1,706 @@
+/* CSS variables for consistent premium styling */
+:root {
+    --bg-main: #0b0f19;
+    --bg-card: rgba(17, 24, 39, 0.7);
+    --bg-card-hover: rgba(31, 41, 55, 0.85);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(56, 189, 248, 0.2);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Neon accent colors */
+    --color-feature: #10b981; /* Neon emerald */
+    --color-issue: #f59e0b; /* Neon amber */
+    --color-deprecation: #ef4444; /* Neon red */
+    --color-general: #06b6d4; /* Neon cyan */
+    --color-brand: #3b82f6; /* Blue */
+    --color-brand-glow: rgba(59, 130, 246, 0.5);
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base reset and settings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.5;
+}
+
+/* Ambient background blobs for glassmorphic depth */
+.glass-bg-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+}
+
+.blob-1 {
+    top: -10%;
+    left: 10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--color-brand) 0%, transparent 70%);
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: 10%;
+    width: 45vw;
+    height: 45vw;
+    background: radial-gradient(circle, var(--color-general) 0%, transparent 70%);
+}
+
+.blob-3 {
+    top: 30%;
+    right: 30%;
+    width: 30vw;
+    height: 30vw;
+    background: radial-gradient(circle, var(--color-feature) 0%, transparent 70%);
+}
+
+/* App Container */
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: 100vh;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand-icon {
+    font-size: 2.5rem;
+    color: var(--color-brand);
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.app-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 30%, #93c5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.last-fetched-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--color-brand);
+    color: #fff;
+    box-shadow: 0 0 15px var(--color-brand-glow);
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Spinner & Icon rotation animation */
+.icon-spin {
+    animation: spin 1s linear infinite;
+    animation-play-state: paused;
+}
+
+.icon-spin.active {
+    animation-play-state: running;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Main Grid Layout */
+.app-main {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Left Side: Notes Section */
+.notes-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Filter & Search Bar */
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.search-box input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.chip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.chip.active {
+    background: var(--color-brand);
+    color: #fff;
+    border-color: var(--color-brand);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Notes List */
+.notes-list-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Release Note Card */
+.note-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    transition: var(--transition-normal);
+    position: relative;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.note-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+.note-card.selected {
+    border-color: var(--color-brand);
+    background: rgba(59, 130, 246, 0.05);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+/* Card Selection Checkbox styling */
+.note-card-selector {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.25rem;
+}
+
+.checkbox-container {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+
+.checkbox-container input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid var(--text-muted);
+    border-radius: 6px;
+    transition: var(--transition-fast);
+}
+
+.note-card:hover .checkmark {
+    border-color: var(--text-secondary);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--color-brand);
+    border-color: var(--color-brand);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Card Content details */
+.note-card-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.note-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.note-meta-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.badge-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.badge-type {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+}
+
+.badge-type.feature {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-feature);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-type.issue {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-issue);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-type.deprecation {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-deprecation);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-type.general {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--color-general);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.btn-card-tweet {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    padding: 0.25rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-card-tweet:hover {
+    color: var(--color-brand);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.note-card-body {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.note-card-body p {
+    margin-bottom: 0.75rem;
+}
+
+.note-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.note-card-body a {
+    color: var(--color-general);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(6, 182, 212, 0.4);
+    transition: var(--transition-fast);
+}
+
+.note-card-body a:hover {
+    color: #22d3ee;
+    border-bottom-style: solid;
+}
+
+.note-card-body code {
+    background: rgba(255, 255, 255, 0.06);
+    color: #f1f5f9;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85em;
+}
+
+.note-card-body strong {
+    color: var(--text-primary);
+}
+
+/* State Handlers (Loading, Error, Empty) */
+.state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+}
+
+.state-container.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(59, 130, 246, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-brand);
+    animation: spin 0.8s ease-in-out infinite;
+}
+
+.error-icon {
+    font-size: 3rem;
+    color: var(--color-deprecation);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    color: var(--text-muted);
+}
+
+/* Right Side: Tweet Builder Box */
+.composer-section {
+    position: sticky;
+    top: 2rem;
+}
+
+.composer-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.composer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.composer-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.composer-icon {
+    color: var(--color-brand);
+    font-size: 1.8rem;
+}
+
+.composer-card h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.btn-clear-text {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.btn-clear-text:hover {
+    color: var(--color-deprecation);
+}
+
+.composer-instruction {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.selected-counter {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+}
+
+#selected-count-badge {
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.1rem 0.45rem;
+    border-radius: 6px;
+    margin-right: 0.4rem;
+}
+
+.tweet-textarea-wrapper {
+    position: relative;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.75rem;
+    transition: var(--transition-fast);
+}
+
+.tweet-textarea-wrapper:focus-within {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+#tweet-draft {
+    width: 100%;
+    height: 180px;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.composer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.char-count-wrapper {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.char-count-wrapper.warning {
+    color: var(--color-issue);
+    font-weight: 600;
+}
+
+.char-count-wrapper.danger {
+    color: var(--color-deprecation);
+    font-weight: 700;
+}
+
+.btn-tweet {
+    flex-grow: 1;
+    max-width: 200px;
+}
+
+.twitter-logo {
+    margin-right: 0.2rem;
+}
+
+/* Responsive adjustment */
+@media (max-width: 1024px) {
+    .app-main {
+        grid-template-columns: 1fr;
+    }
+    .composer-section {
+        position: static;
+    }
+    .app-container {
+        padding: 1rem;
+    }
+}
