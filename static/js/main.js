@@ -21,6 +21,7 @@ const charCountWrapper = charCount.parentElement;
 const selectedCountBadge = document.getElementById('selected-count-badge');
 const tweetBtn = document.getElementById('tweet-btn');
 const clearComposerBtn = document.getElementById('clear-composer');
+const exportBtn = document.getElementById('export-btn');
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
@@ -76,6 +77,9 @@ function setupEventListeners() {
     tweetDraft.addEventListener('input', () => {
         updateCharCount(tweetDraft.value.length);
     });
+
+    // Export to CSV
+    exportBtn.addEventListener('click', exportToCSV);
 }
 
 // Fetch Release Notes from API
@@ -175,9 +179,14 @@ function renderReleaseNotes() {
                         <span class="badge-date">${note.date}</span>
                         <span class="badge-type ${note.type.toLowerCase()}">${note.type}</span>
                     </div>
-                    <button class="btn-card-tweet" title="Tweet this update only" onclick="event.stopPropagation(); tweetSingle('${note.id}')">
-                        <span class="material-symbols-outlined">share</span>
-                    </button>
+                    <div class="note-card-actions">
+                        <button class="btn-card-copy" title="Copy update to clipboard" onclick="event.stopPropagation(); copyToClipboard('${note.id}')">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                        <button class="btn-card-tweet" title="Tweet this update only" onclick="event.stopPropagation(); tweetSingle('${note.id}')">
+                            <span class="material-symbols-outlined">share</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="note-card-body">
                     ${note.html}
@@ -325,4 +334,66 @@ function cleanTextForTweet(text) {
     return text
         .replace(/\s+/g, ' ') // replace multiple spaces/newlines with single space
         .trim();
+}
+
+// Copy single release note text content to clipboard
+function copyToClipboard(id) {
+    const note = releaseNotes.find(n => n.id === id);
+    if (!note) return;
+    
+    const textToCopy = cleanTextForTweet(note.text);
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // Visual success feedback
+        const copyBtnIcon = document.querySelector(`.note-card[data-id="${id}"] .btn-card-copy span`);
+        if (copyBtnIcon) {
+            copyBtnIcon.textContent = 'check';
+            copyBtnIcon.style.color = 'var(--color-feature)';
+            setTimeout(() => {
+                copyBtnIcon.textContent = 'content_copy';
+                copyBtnIcon.style.color = '';
+            }, 1500);
+        }
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+
+// Export currently filtered release notes to a CSV file download
+function exportToCSV() {
+    // Determine filtered set matching current filters
+    const filteredNotes = releaseNotes.filter(note => {
+        const matchesType = filterType === 'all' || note.type === filterType;
+        const matchesSearch = !searchQuery || 
+                              note.text.toLowerCase().includes(searchQuery) || 
+                              note.date.toLowerCase().includes(searchQuery) ||
+                              note.type.toLowerCase().includes(searchQuery);
+        return matchesType && matchesSearch;
+    });
+    
+    if (filteredNotes.length === 0) return;
+    
+    // Helper to escape CSV quotes and wrap
+    const escapeCSV = (text) => {
+        if (!text) return '""';
+        let escaped = text.replace(/"/g, '""');
+        return `"${escaped}"`;
+    };
+    
+    let csvContent = "Date,Type,Description\r\n";
+    
+    filteredNotes.forEach(note => {
+        const cleanDesc = cleanTextForTweet(note.text);
+        csvContent += `${escapeCSV(note.date)},${escapeCSV(note.type)},${escapeCSV(cleanDesc)}\r\n`;
+    });
+    
+    // Download trigger
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `bigquery_release_notes_${filterType}_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }

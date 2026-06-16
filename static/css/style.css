@@ -455,7 +455,13 @@ body {
     border: 1px solid rgba(6, 182, 212, 0.2);
 }
 
-.btn-card-tweet {
+.note-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-card-tweet, .btn-card-copy {
     background: transparent;
     border: none;
     color: var(--text-muted);
@@ -470,6 +476,11 @@ body {
 .btn-card-tweet:hover {
     color: var(--color-brand);
     background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-card-copy:hover {
+    color: var(--color-feature);
+    background: rgba(16, 185, 129, 0.1);
 }
 
 .note-card-body {
