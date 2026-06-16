@@ -22,12 +22,25 @@ const selectedCountBadge = document.getElementById('selected-count-badge');
 const tweetBtn = document.getElementById('tweet-btn');
 const clearComposerBtn = document.getElementById('clear-composer');
 const exportBtn = document.getElementById('export-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     fetchReleaseNotes();
     setupEventListeners();
 });
+
+// Initialize Theme from LocalStorage
+function initTheme() {
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-theme');
+        themeIcon.textContent = 'dark_mode';
+    } else {
+        themeIcon.textContent = 'light_mode';
+    }
+}
 
 // Event Listeners Setup
 function setupEventListeners() {
@@ -80,6 +93,14 @@ function setupEventListeners() {
 
     // Export to CSV
     exportBtn.addEventListener('click', exportToCSV);
+
+    // Theme Toggle
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        themeIcon.textContent = isLight ? 'dark_mode' : 'light_mode';
+    });
 }
 
 // Fetch Release Notes from API
